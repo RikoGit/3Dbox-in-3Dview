@@ -1,0 +1,12 @@
+@import "../../constants.scss";
+
+.preview {
+  margin: 0;
+  position: relative;
+  text-align: center;
+  box-sizing: border-box;
+
+  @media only screen and (max-width: 610px) {
+    //padding: $previewPaddingMin $previewPaddingMin 70px $previewPaddingMin;
+  }
+}

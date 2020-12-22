@@ -1,0 +1,33 @@
+@import "../../constants.scss";
+
+$inputHeight: 38px;
+$inputBorderColor: #d3d8de;
+
+.root {
+  margin: 0;
+  padding: 0;
+  width: 350px;
+  position: relative;
+  align-self: start;
+}
+.input {
+  margin: 0;
+  padding: 0 11px;
+  width: 100%;
+  font-size: 16px;
+  line-height: 16px;
+  color: #7c858d;
+  height: 100%;
+  border: none;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  border: 1px solid $inputBorderColor;
+  outline: none;
+}
+.input:focus,
+.input:active {
+  border-color: #f6ab38;
+  outline: none;
+}
+.input:hover {
+}
