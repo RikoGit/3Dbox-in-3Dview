@@ -1,6 +1,6 @@
 {
   "name": "3dbox-3dview",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "3D box in a 3D view",
   "main": "app.js",
   "directories": {
@@ -10,25 +10,32 @@
     "build": "webpack --config configs/webpack.config.js",
     "start": "npm run build && node app.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RikoGit/3Dbox-in-3Dview.git"
+  },
   "type": "module",
   "author": "RikoGit",
   "license": "MIT",
-  "dependencies": {
-    "express": "^4.17.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "three": "^0.123.0"
+  "bugs": {
+    "url": "https://github.com/RikoGit/3Dbox-in-3Dview/issues"
   },
-  "devDependencies": {
+  "homepage": "https://github.com/RikoGit/3Dbox-in-3Dview#readme",
+  "dependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.0.1",
+    "express": "^4.17.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "sass": "^1.30.0",
     "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
+    "three": "^0.123.0",
     "webpack": "^5.11.0",
     "webpack-cli": "^4.2.0"
-  }
+  },
+  "devDependencies": {}
 }
