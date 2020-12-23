@@ -3,7 +3,7 @@ import express from "express";
 import { getTrianglesFromSizes } from "./utils.js";
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const staticDir = "docs";
 
 app.set("port", PORT);
