@@ -38,8 +38,6 @@ const App = () => {
     }
   }
 
-  //console.log(box);
-
   return (
     <div className={styles.root}>
       <Fields onChange={onChangeField} onClick={setBoxSize} />
