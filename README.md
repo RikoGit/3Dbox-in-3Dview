@@ -1,4 +1,3 @@
-#
+# A simple client-server web application (including front-end and back-end) which can display a simple 3D box in a 3D view.
 
-- Запустить локально (`npm install && npm start`).
-- После запуска приложение доступно в браузере по адресу `localhost:3000`.
+# https://box3d-view3d.herokuapp.com/

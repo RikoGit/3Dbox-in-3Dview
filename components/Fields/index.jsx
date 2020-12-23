@@ -6,26 +6,32 @@ const Fields = ({ onChange, onClick }) => (
   <div className={styles.root}>
     <input
       className={styles.input}
-      type="text"
-      placeholder="length"
-      onChange={(event) => {
-        onChange("length", event.target.value);
-      }}
-    />
-    <input
-      className={styles.input}
-      type="text"
+      type="number"
+      min="1"
+      max="15"
       placeholder="width"
       onChange={(event) => {
-        onChange("width", event.target.value);
+        onChange("width", Number(event.target.value));
       }}
     />
     <input
       className={styles.input}
-      type="text"
+      type="number"
+      min="1"
+      max="15"
       placeholder="height"
       onChange={(event) => {
-        onChange("height", event.target.value);
+        onChange("height", Number(event.target.value));
+      }}
+    />
+    <input
+      className={styles.input}
+      type="number"
+      min="1"
+      max="15"
+      placeholder="length"
+      onChange={(event) => {
+        onChange("length", Number(event.target.value));
       }}
     />
     <button type="button" onClick={onClick}>

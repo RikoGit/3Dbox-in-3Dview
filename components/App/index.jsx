@@ -22,7 +22,7 @@ const App = () => {
     console.log(box);
 
     try {
-      let response = await fetch("/box", {
+      const response = await fetch("/box", {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
@@ -31,8 +31,7 @@ const App = () => {
       });
 
       console.log(response);
-      setTriangles(JSON.parse(await response.json()));
-      //console.log(result);
+      setTriangles(await response.json());
     } catch (e) {
       console.log("error"); //error
     }

@@ -13,7 +13,6 @@ app.use("/", express.static(staticDir));
 app.use(express.json()); // for parsing application/json
 
 app.post("/box", (req, res) => {
-  console.log(req.body);
   res.json(getTrianglesFromSizes(req.body));
 });
 

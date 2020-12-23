@@ -2,3 +2,5 @@ node_modules
 
 # Editors
 .vscode
+
+.docs/index.js

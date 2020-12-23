@@ -1,5 +1,16 @@
 import React, { useEffect, useRef } from "react";
-import * as THREE from "three";
+import {
+  Scene,
+  PerspectiveCamera,
+  DirectionalLight,
+  WebGLRenderer,
+  Geometry,
+  Vector3,
+  Face3,
+  FaceColors,
+  Mesh,
+  MeshBasicMaterial,
+} from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 import "./styles.scss";
@@ -11,8 +22,8 @@ const BoxView = ({ triangles }) => {
   useEffect(() => {
     if (triangles) {
       const canvas = canvasRef.current;
-      var scene = new THREE.Scene();
-      var camera = new THREE.PerspectiveCamera(
+      var scene = new Scene();
+      var camera = new PerspectiveCamera(
         75,
         canvas.width / canvas.height,
         0.1,
@@ -25,70 +36,39 @@ const BoxView = ({ triangles }) => {
       {
         const color = 0xffffff;
         const intensity = 1;
-        const light = new THREE.DirectionalLight(color, intensity);
+        const light = new DirectionalLight(color, intensity);
         light.position.set(0.5, 2, 0);
         scene.add(light);
       }
 
-      var renderer = new THREE.WebGLRenderer({ canvas });
-      renderer.setClearColor(new THREE.Color(0x545454));
+      var renderer = new WebGLRenderer({ canvas, alpha: true });
+      //renderer.setClearColor(new THREE.Color(0x545454));
 
       const controls = new OrbitControls(camera, renderer.domElement);
       controls.target.set(0, 0, 0);
       controls.update();
 
-      const geometry = new THREE.Geometry();
+      const geometry = new Geometry();
 
       geometry.vertices = [];
-
       triangles.vertices.map((vertice) =>
-        geometry.vertices.push(new THREE.Vector3(...vertice.split(",")))
+        geometry.vertices.push(new Vector3(...vertice))
       );
 
-      /*geometry.vertices.push(
-      new THREE.Vector3(-1, -1, 1), // 0
-      new THREE.Vector3(1, -1, 1), // 1
-      new THREE.Vector3(-1, 1, 1), // 2
-      new THREE.Vector3(1, 1, 1), // 3
-      new THREE.Vector3(-1, -1, -1), // 4
-      new THREE.Vector3(1, -1, -1), // 5
-      new THREE.Vector3(-1, 1, -1), // 6
-      new THREE.Vector3(1, 1, -1) // 7
-    );*/
+      geometry.faces = [];
+      triangles.faces.map((face) => geometry.faces.push(new Face3(...face)));
 
-      /*      geometry.faces = [];
-
-      triangles.faces.map((face) =>
-        geometry.faces.push(new THREE.Face3(...face.split(",")))
+      geometry.faces.forEach((face) =>
+        face.color.setHex(Math.random() * 0xffffff)
       );
-*/
-      geometry.faces.push(
-        // front
-        new THREE.Face3(0, 3, 2),
-        new THREE.Face3(0, 1, 3),
-        // right
-        new THREE.Face3(1, 7, 3),
-        new THREE.Face3(1, 5, 7),
-        // back
-        new THREE.Face3(5, 6, 7),
-        new THREE.Face3(5, 4, 6),
-        // left
-        new THREE.Face3(4, 2, 6),
-        new THREE.Face3(4, 0, 2),
-        // top
-        new THREE.Face3(2, 7, 6),
-        new THREE.Face3(2, 3, 7),
-        // bottom
-        new THREE.Face3(4, 1, 0),
-        new THREE.Face3(4, 5, 1)
-      );
-
       geometry.computeFaceNormals();
 
-      const material = new THREE.MeshPhongMaterial({ color: 0x828282 });
-      //const material = new THREE.MeshBasicMaterial({ color: 0x828282 });
+      //const material = new THREE.MeshPhongMaterial({ color: 0x828282 });
+      const material = new MeshBasicMaterial({
+        vertexColors: FaceColors,
+      });
 
-      const cube = new THREE.Mesh(geometry, material);
+      const cube = new Mesh(geometry, material);
       scene.add(cube);
 
       function resizeRendererToDisplaySize(renderer) {
