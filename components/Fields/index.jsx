@@ -1,8 +1,9 @@
 import React from "react";
 
+import Invalid from "../Invalid/index.jsx";
 import styles from "./styles.scss";
 
-const Fields = ({ onChange, onClick }) => (
+const Fields = ({ onChange, onClick, isValid }) => (
   <div className={styles.root}>
     <label className={styles.label}>
       Width
@@ -43,9 +44,12 @@ const Fields = ({ onChange, onClick }) => (
       />
       <span className={styles.text}>от 1 до 15</span>
     </label>
-    <button type="button" onClick={onClick} className={styles.button}>
-      Display 3D box in 3D view
-    </button>
+    <div className={styles.valid}>
+      {!isValid && <Invalid />}
+      <button type="button" onClick={onClick} className={styles.button}>
+        Display
+      </button>
+    </div>
   </div>
 );
 

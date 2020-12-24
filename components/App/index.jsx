@@ -7,6 +7,7 @@ import styles from "./styles.scss";
 
 const App = () => {
   const [box, setBox] = useState(null);
+  const [isValid, setIsValid] = useState(true);
   const [triangles, setTriangles] = useState(null);
 
   const onChangeField = (name, value) => {
@@ -16,11 +17,26 @@ const App = () => {
     });
   };
 
-  async function setBoxSize() {
-    //проверку на наличие всех свойств
-    console.log("post");
-    console.log(box);
+  const validate = () => {
+    if (box === null) return false;
 
+    let count = 0;
+    for (const value of Object.values(box)) {
+      if (value > 0 && value <= 15) count++;
+      else {
+        return false;
+      }
+    }
+    if (count === 3) return true;
+  };
+
+  async function setBoxSize() {
+    if (!validate()) {
+      setIsValid(false);
+      return;
+    }
+
+    setIsValid(true);
     try {
       const response = await fetch("/box", {
         method: "POST",
@@ -29,17 +45,15 @@ const App = () => {
         },
         body: JSON.stringify(box),
       });
-
-      console.log(response);
       setTriangles(await response.json());
     } catch (e) {
-      console.log("error"); //error
+      console.log("error");
     }
   }
 
   return (
     <div className={styles.root}>
-      <Fields onChange={onChangeField} onClick={setBoxSize} />
+      <Fields onChange={onChangeField} onClick={setBoxSize} isValid={isValid} />
       <BoxView triangles={triangles} />
     </div>
   );

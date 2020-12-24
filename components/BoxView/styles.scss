@@ -1,8 +1,18 @@
+$marginLeft: 20px;
+
 .preview {
-  margin: 0 20px;
+  margin: 0;
   text-align: center;
   box-sizing: border-box;
 
-  @media only screen and (max-width: 580px) {
+  @media only screen and (max-width: 600px) {
+    margin-left: -$marginLeft;
+    max-width: 100vw;
+  }
+}
+.canvas {
+  @media only screen and (max-width: 600px) {
+    max-width: 100vw;
+    height: auto;
   }
 }
