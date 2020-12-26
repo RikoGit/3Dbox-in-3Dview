@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
 import {
   Scene,
   PerspectiveCamera,
-  //DirectionalLight,
   WebGLRenderer,
   Geometry,
   Vector3,
@@ -15,71 +14,74 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 import styles from "./styles.scss";
 
-const BoxView = ({ triangles }) => {
-  const canvasRef = useRef(null);
+const useBox = (triangles, canvas) => {
+  const { camera, renderer, scene, controls, material } = useMemo(() => {
+    if (!canvas) return {};
+
+    const camera = new PerspectiveCamera(
+      75,
+      canvas.width / canvas.height,
+      0.1,
+      100
+    );
+    camera.position.set(30, 10, 30);
+
+    const renderer = new WebGLRenderer({ canvas, alpha: true });
+
+    const controls = new OrbitControls(camera, canvas);
+    controls.target.set(0, 0, 0);
+    controls.update();
+
+    const scene = new Scene();
+    const geometry = new Geometry();
+
+    const material = new MeshBasicMaterial({
+      vertexColors: FaceColors,
+    });
+
+    return { camera, renderer, scene, geometry, controls, material };
+  }, [canvas]);
 
   useEffect(() => {
-    if (triangles) {
-      const canvas = canvasRef.current;
-      var scene = new Scene();
-      var camera = new PerspectiveCamera(
-        75,
-        canvas.width / canvas.height,
-        0.1,
-        100
-      );
-      camera.position.set(30, 10, 30);
+    if (!triangles) return;
 
-      /*{
-        const color = 0xffffff;
-        const intensity = 1;
-        const light = new DirectionalLight(color, intensity);
-        light.position.set(0.5, 2, 0);
-        scene.add(light);
-      }*/
+    const geometry = new Geometry();
+    geometry.vertices = [];
+    triangles.vertices.map((vertice) =>
+      geometry.vertices.push(new Vector3(...vertice))
+    );
 
-      var renderer = new WebGLRenderer({ canvas, alpha: true });
-      //renderer.setClearColor(new THREE.Color(0x545454));
+    geometry.faces = [];
+    triangles.faces.map((face) => geometry.faces.push(new Face3(...face)));
 
-      const controls = new OrbitControls(camera, renderer.domElement);
-      controls.target.set(0, 0, 0);
-      controls.update();
+    geometry.faces.forEach((face) =>
+      face.color.setHex(Math.random() * 0xffffff)
+    );
+    geometry.computeFaceNormals();
 
-      const geometry = new Geometry();
+    const cube = new Mesh(geometry, material);
+    scene.add(cube);
 
-      geometry.vertices = [];
-      triangles.vertices.map((vertice) =>
-        geometry.vertices.push(new Vector3(...vertice))
-      );
-
-      geometry.faces = [];
-      triangles.faces.map((face) => geometry.faces.push(new Face3(...face)));
-
-      geometry.faces.forEach((face) =>
-        face.color.setHex(Math.random() * 0xffffff)
-      );
-      geometry.computeFaceNormals();
-
-      //const material = new THREE.MeshPhongMaterial({ color: 0x828282 });
-      const material = new MeshBasicMaterial({
-        vertexColors: FaceColors,
-      });
-
-      const cube = new Mesh(geometry, material);
-      scene.add(cube);
-
-      function render() {
-        renderer.render(scene, camera);
-
-        requestAnimationFrame(render);
-        controls.update();
-      }
-
+    const render = () => {
+      renderer.render(scene, camera);
       requestAnimationFrame(render);
-      // required if controls.enableDamping or controls.autoRotate are set to true
       controls.update();
-    }
+    };
+
+    requestAnimationFrame(render);
+    controls.update();
+
+    return () => {
+      geometry.dispose();
+      material.dispose();
+      scene.remove(cube);
+    };
   }, [triangles]);
+};
+
+const BoxView = ({ triangles }) => {
+  const canvasRef = useRef(null);
+  useBox(triangles, canvasRef.current);
 
   return (
     <>

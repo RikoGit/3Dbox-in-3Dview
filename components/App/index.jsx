@@ -22,7 +22,7 @@ const App = () => {
 
     let count = 0;
     for (const value of Object.values(box)) {
-      if (value > 0 && value <= 15) count++;
+      if (value > 0 && value <= 15) count += 1;
       else {
         return false;
       }
