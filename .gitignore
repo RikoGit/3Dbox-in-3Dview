@@ -3,4 +3,5 @@ node_modules
 # Editors
 .vscode
 
-.docs/index.js
+docs/index.js
+docs/index.js.LICENSE.txt
