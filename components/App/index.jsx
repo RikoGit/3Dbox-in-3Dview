@@ -21,13 +21,14 @@ const App = () => {
     if (box === null) return false;
 
     let count = 0;
+    // eslint-disable-next-line no-restricted-syntax
     for (const value of Object.values(box)) {
       if (value > 0 && value <= 15) count += 1;
-      else {
-        return false;
-      }
+      else return false;
     }
     if (count === 3) return true;
+
+    return false;
   };
 
   async function setBoxSize() {
@@ -47,7 +48,7 @@ const App = () => {
       });
       setTriangles(await response.json());
     } catch (e) {
-      console.log("error");
+      // console.log("error");
     }
   }
 

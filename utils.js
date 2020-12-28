@@ -24,3 +24,5 @@ export const getTrianglesFromSizes = ({ width, height, length }) => ({
     [4, 5, 1],
   ],
 });
+
+export const noop = () => {};
